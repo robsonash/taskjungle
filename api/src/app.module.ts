@@ -6,9 +6,13 @@ import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 
 @Module({
-  imports: [MongooseModule.forRoot('mongodb://root:123@localhost:27017/', {
-    dbName:'taskjungle'
-  }), UserModule, AuthModule],
+  imports: [
+    MongooseModule.forRoot('mongodb://root:example@localhost:27017/', {
+      dbName: 'taskjungle',
+    }),
+    UserModule,
+    AuthModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
