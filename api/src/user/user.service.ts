@@ -30,14 +30,14 @@ export class UserService {
     }
   
     // Mapeia o usuário para o DTO de resposta
-    const userResponseDto: User = {
+    const userResponse: User = {
       id: user._id.toString(), // Converte o ObjectId para string
       name: user.name,
       email: user.email,
       password: user.password, 
     };
   
-    return userResponseDto;
+    return userResponse;
   }
   
   update(id: number, updateUserDto: UpdateUserDto) {

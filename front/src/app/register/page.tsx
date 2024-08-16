@@ -15,7 +15,7 @@ interface User {
 function AlertMessage({ message }: { message: string }) {
   return (
     <div
-      className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+      className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50"
       role="alert"
     >
       <span className="font-medium">{message}</span>
@@ -42,7 +42,7 @@ export default function RegisterPage() {
       formElement.reset();
     } catch(error){
 
-      let msgErr = 'Algo deu errado meu irmao'
+      let msgErr = 'Algo deu errado'
 
       if(error instanceof AxiosError){
         if(error?.response?.data?.message[0]){
