@@ -1,5 +1,4 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { UserResponseDto } from '../user/dto/user-response-dto';
 import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
@@ -13,14 +12,14 @@ export class AuthService {
     email: string, 
     pass: string
   ): Promise<{ access_token: string }> {
-    const user: UserResponseDto | null = await this.usersService.findByEmail(email);
+    const user = await this.usersService.findByEmail(email);
 
     // Verifica se o usuário existe e se a senha está correta
     if (!user || !(await bcrypt.compare(pass, user.password))) {
       throw new UnauthorizedException();
     }
 
-    const payload = { sub: user._id };
+    const payload = { sub: user.id };
 
     // Gera e retorna o token JWT
     return {

@@ -5,7 +5,6 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User } from './entities/user.entity';
 import * as bcrypt from 'bcrypt';
-import { UserResponseDto } from './dto/user-response-dto';
 @Injectable()
 export class UserService {
 
@@ -24,18 +23,18 @@ export class UserService {
     return this.UserModel.findById(id);
   }
 
-  async findByEmail(email: string): Promise<UserResponseDto | null> {
+  async findByEmail(email: string): Promise<User> {
     const user = await this.UserModel.findOne({ email }).exec();
     if (!user) {
-      return null; // Ou você pode lançar uma exceção ou retornar um valor padrão
+      return null;
     }
   
     // Mapeia o usuário para o DTO de resposta
-    const userResponseDto: UserResponseDto = {
-      _id: user._id.toString(), // Converte o ObjectId para string
+    const userResponseDto: User = {
+      id: user._id.toString(), // Converte o ObjectId para string
       name: user.name,
       email: user.email,
-      password: user.password, // Inclua a senha se necessário
+      password: user.password, 
     };
   
     return userResponseDto;
