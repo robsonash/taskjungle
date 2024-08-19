@@ -2,9 +2,11 @@
 
 import InputLabel from "@/components/InputLabel";
 import SubmitButton from "@/components/SubmitButton";
-import axios from "axios";
-import { FormEvent, useState } from "react";
+import api from "../lib/axiosConfig";
+import { FormEvent, useContext, useState } from "react";
 import LinkButton from "@/components/LinkButton";
+import AuthContext from "../context/AuthContext";
+import { AxiosError } from "axios";
 
 interface User {
   _id: string;
@@ -26,6 +28,7 @@ function AlertMessage({ message }: { message: string }) {
 
 export default function RegisterPage() {
   const [messageError, setMessageError] = useState<string | null>(null);
+  const { setToken } = useContext(AuthContext);
 
   async function login(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -40,10 +43,20 @@ export default function RegisterPage() {
     });
 
     try {
-      await axios.post("http://localhost:3001/auth/login", formDataObj);
+      const response = await api.post("/auth/login", formDataObj);
+      const { access_token } = response.data;
+      setToken(access_token);
+
       formElement.reset();
     } catch (error) {
-      setMessageError("Erro ao tentar fazer login. Tente novamente.");
+      let msgErr = "Erro ao tentar fazer login. Tente novamente.";
+
+      if (error instanceof AxiosError) {
+        if (error?.response?.data?.message[0]) {
+          msgErr = error?.response?.data?.message.join(", ");
+        }
+      }
+      setMessageError(msgErr);
     }
   }
 
