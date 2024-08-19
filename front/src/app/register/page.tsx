@@ -1,6 +1,7 @@
 "use client";
 
 import InputLabel from "@/components/InputLabel";
+import LinkButton from "@/components/LinkButton";
 import SubmitButton from "@/components/SubmitButton";
 import axios, { AxiosError } from "axios";
 import { FormEvent, useState } from "react";
@@ -40,19 +41,16 @@ export default function RegisterPage() {
     try {
       await axios.post("http://localhost:3001/users", formDataObj);
       formElement.reset();
-    } catch(error){
+    } catch (error) {
+      let msgErr = "Algo deu errado";
 
-      let msgErr = 'Algo deu errado'
-
-      if(error instanceof AxiosError){
-        if(error?.response?.data?.message[0]){
-          msgErr = error?.response?.data?.message.join(', ')
+      if (error instanceof AxiosError) {
+        if (error?.response?.data?.message[0]) {
+          msgErr = error?.response?.data?.message.join(", ");
         }
       }
 
-      
-
-      setMessageError(msgErr)
+      setMessageError(msgErr);
     }
   }
 
@@ -70,6 +68,7 @@ export default function RegisterPage() {
         <InputLabel label="Password" type="text" name="password" />
         <SubmitButton label="Enviar" />
       </form>
+      <LinkButton label="Voltar para a tela principal" href="/" />
     </main>
   );
 }

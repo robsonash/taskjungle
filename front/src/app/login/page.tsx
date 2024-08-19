@@ -1,7 +1,10 @@
 "use client";
 
+import InputLabel from "@/components/InputLabel";
+import SubmitButton from "@/components/SubmitButton";
 import axios from "axios";
-import { FormEvent } from "react";
+import { FormEvent, useState } from "react";
+import LinkButton from "@/components/LinkButton";
 
 interface User {
   _id: string;
@@ -10,7 +13,20 @@ interface User {
   password: string;
 }
 
+function AlertMessage({ message }: { message: string }) {
+  return (
+    <div
+      className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50"
+      role="alert"
+    >
+      <span className="font-medium">{message}</span>
+    </div>
+  );
+}
+
 export default function RegisterPage() {
+  const [messageError, setMessageError] = useState<string | null>(null);
+
   async function login(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const formElement = e.currentTarget;
@@ -23,25 +39,28 @@ export default function RegisterPage() {
       formDataObj[key] = value;
     });
 
-    await axios.post("http://localhost:3001/auth/login", formDataObj);
-    formElement.reset();
+    try {
+      await axios.post("http://localhost:3001/auth/login", formDataObj);
+      formElement.reset();
+    } catch (error) {
+      setMessageError("Erro ao tentar fazer login. Tente novamente.");
+    }
   }
 
   return (
-    <main>
-      <h1>Login</h1>
+    <main className="container mx-auto">
+      <h1 className="my-8 text-4xl font-extrabold leading-none tracking-tight text-gray-900">
+        Login
+      </h1>
+      {messageError ? <AlertMessage message={messageError} /> : null}
 
       <form onSubmit={login}>
-        <div>
-          <label>Email:</label>
-          <input name="email" required />
-        </div>
-        <div>
-          <label>Password</label>
-          <input name="password" required />
-        </div>
-        <button type="submit">Logar</button>
+        <InputLabel label="Email" type="text" name="email" />
+        <InputLabel label="Password" type="text" name="password" />
+        <SubmitButton label="Logar" />
       </form>
+
+      <LinkButton label="Voltar para a tela principal" href="/" />
     </main>
   );
 }
