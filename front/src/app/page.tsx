@@ -1,5 +1,5 @@
 "use client";
-
+import Link from "next/link";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
@@ -21,12 +21,25 @@ export default function Home() {
   useEffect(() => {
     getUsers();
   }, []);
+
   return (
     <main className="container mx-auto">
-      <h1 className="my-8 text-4xl font-extrabold leading-none tracking-tight text-gray-900">Task Jungle</h1>
+      <h1 className="my-8 text-4xl font-extrabold leading-none tracking-tight text-gray-900">
+        Task Jungle
+      </h1>
       <div>
-        <a href="/register" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">Register page</a>
-        <a href="/login" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">Login page</a>
+        <Link
+          href="/register"
+          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
+        >
+          Register page
+        </Link>
+        <Link
+          href="/login"
+          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
+        >
+          Login page
+        </Link>
       </div>
       <ul>
         {users.map((user) => (
