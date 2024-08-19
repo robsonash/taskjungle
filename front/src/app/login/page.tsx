@@ -7,6 +7,7 @@ import { FormEvent, useContext, useState } from "react";
 import LinkButton from "@/components/LinkButton";
 import AuthContext from "../context/AuthContext";
 import { AxiosError } from "axios";
+import { useRouter } from 'next/navigation'; 
 
 interface User {
   _id: string;
@@ -29,7 +30,7 @@ function AlertMessage({ message }: { message: string }) {
 export default function RegisterPage() {
   const [messageError, setMessageError] = useState<string | null>(null);
   const { setToken } = useContext(AuthContext);
-
+  const router = useRouter();
   async function login(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const formElement = e.currentTarget;
@@ -48,6 +49,7 @@ export default function RegisterPage() {
       setToken(access_token);
 
       formElement.reset();
+      router.push("/tasks");
     } catch (error) {
       let msgErr = "Erro ao tentar fazer login. Tente novamente.";
 
