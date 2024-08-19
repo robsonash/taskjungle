@@ -2,12 +2,11 @@ import { NextResponse, NextRequest } from 'next/server';
 
 // Função de middleware
 export function middleware(request: NextRequest) {
-
-  // Recupera o token do cookie
+  // Recupera o token dos cookies
   const token = request.cookies.get('token');
   // Define as rotas protegidas
   const protectedRoutes = ['/tasks'];
-
+  
   // Verifica se a rota é uma rota protegida e se o token não está presente
   if (protectedRoutes.includes(request.nextUrl.pathname) && !token) {
     // Redireciona para a página de login se o token não estiver presente

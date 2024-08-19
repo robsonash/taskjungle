@@ -7,7 +7,7 @@ import { FormEvent, useContext, useState } from "react";
 import LinkButton from "@/components/LinkButton";
 import AuthContext from "../context/AuthContext";
 import { AxiosError } from "axios";
-import { useRouter } from 'next/navigation'; 
+import { useRouter } from "next/navigation";
 
 interface User {
   _id: string;
@@ -27,7 +27,7 @@ function AlertMessage({ message }: { message: string }) {
   );
 }
 
-export default function RegisterPage() {
+export default function LoginPage() {
   const [messageError, setMessageError] = useState<string | null>(null);
   const { setToken } = useContext(AuthContext);
   const router = useRouter();
@@ -46,6 +46,7 @@ export default function RegisterPage() {
     try {
       const response = await api.post("/auth/login", formDataObj);
       const { access_token } = response.data;
+      document.cookie = `token=${access_token}; path=/; Secure; SameSite=Lax`;
       setToken(access_token);
 
       formElement.reset();
