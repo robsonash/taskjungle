@@ -9,21 +9,21 @@ import React from 'react';
 import {
   SafeAreaView,
   ScrollView,
-  StatusBar,
-  StyleSheet,
   Text,
-  useColorScheme,
   View,
 } from 'react-native';
-import CButton from './components/CButton/CButton';
+
+import CHeader from './components/CHeader/Cheader';
 
 function App(): React.JSX.Element {
   return (
     <SafeAreaView>
       <ScrollView contentInsetAdjustmentBehavior="automatic">
         <View>
-          <Text>Header</Text>
-          <CButton title='Oi jovens'/>
+          <CHeader title="Header" />
+        </View>
+        <View>
+          <Text>Oi</Text>
         </View>
       </ScrollView>
     </SafeAreaView>
