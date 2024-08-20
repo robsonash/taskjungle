@@ -1,29 +1,42 @@
 import React from 'react';
-import {Button, SafeAreaView, ScrollView, Text, View} from 'react-native';
+import {Button, SafeAreaView, Text, View} from 'react-native';
 import {
   createNativeStackNavigator,
   NativeStackNavigationProp,
 } from '@react-navigation/native-stack';
 import {NavigationContainer} from '@react-navigation/native';
 import {enableScreens} from 'react-native-screens';
-import CHeader from './components/CHeader/CHeader';
-// Chame enableScreens() antes de renderizar qualquer componente
+
 enableScreens();
 
-// Defina o tipo de navegação para a tela Home
-type HomeScreenNavigationProp = NativeStackNavigationProp<
-  RootStackParamList,
-  'Home'
->;
 type RootStackParamList = {
   Home: undefined;
   Details: undefined;
 };
-type Props = {
+
+// Tipos de navegação para HomeScreen
+type HomeScreenNavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  'Home'
+>;
+
+// Tipos de navegação para DetailsScreen
+type DetailsScreenNavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  'Details'
+>;
+
+// Props para HomeScreen
+type HomeScreenProps = {
   navigation: HomeScreenNavigationProp;
 };
-// Defina a tela HomeScreen
-const HomeScreen: React.FC<Props> = ({navigation}) => {
+
+// Props para DetailsScreen
+type DetailsScreenProps = {
+  navigation: DetailsScreenNavigationProp;
+};
+
+const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
       <Text>Home Screen</Text>
@@ -35,16 +48,17 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
   );
 };
 
-const DetailsScreen: React.FC<Props> = ({navigation}) => {
+const DetailsScreen: React.FC<DetailsScreenProps> = ({navigation}) => {
   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>Details </Text>
+      <Text>Details</Text>
       <Button title="Go to Home" onPress={() => navigation.navigate('Home')} />
     </View>
   );
 };
+
 // Crie o stack navigator
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function App(): React.JSX.Element {
   return (
