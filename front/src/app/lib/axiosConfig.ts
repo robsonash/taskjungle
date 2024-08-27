@@ -9,7 +9,9 @@ function getCookie(name: string): string | undefined {
   }
   return undefined;
 }
-
+function removeCookie(name: string): void {
+  document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+}
 // Obter o token dos cookies (se existir)
 const token = typeof window !== "undefined" ? getCookie("token") : null;
 
@@ -34,4 +36,21 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
+// Interceptador para lidar com respostas
+api.interceptors.response.use(
+  (response) => {
+    // Retorna a resposta diretamente se não houver erro
+    return response;
+  },
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      // Se a resposta for um erro de autenticação (401), remove o cookie e redireciona para a tela de login
+      removeCookie("token");
+      if (typeof window !== "undefined") {
+        window.location.href = "/login"; // Substitua "/login" pela rota correta
+      }
+    }
+    return Promise.reject(error);
+  }
+);
 export default api;
