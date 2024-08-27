@@ -24,10 +24,12 @@ if (token) {
 
 // Interceptador para adicionar o token nas requisições
 api.interceptors.request.use((config) => {
-  console.log('config', config)
+
   const newToken = typeof window !== "undefined" ? getCookie("token") : null;
+
   if (newToken) {
     config.headers["Authorization"] = `Bearer ${newToken}`;
+
   }
   return config;
 });

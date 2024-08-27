@@ -1,8 +1,8 @@
 "use client";
 
 import LinkButton from "@/components/LinkButton";
-import axios from "axios";
 import { useEffect, useState } from "react";
+import api from "../lib/axiosConfig";
 
 interface Task {
   _id: string;
@@ -13,7 +13,7 @@ export default function TasksPage() {
   const [tasks, setTasks] = useState<Task[]>([]);
 
   async function getTasks() {
-    const response = await axios.get<Task[]>("http://localhost:3001/tasks");
+    const response = await api.get<Task[]>("http://localhost:3001/tasks");
     setTasks(response.data);
   }
   useEffect(() => {
